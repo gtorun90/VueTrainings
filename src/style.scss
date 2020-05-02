@@ -1,0 +1,44 @@
+/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+html, body {
+    font-family: 'Roboto', sans-serif;
+}
+body{   
+  background-color: beige;
+}
+.card{
+  background-color: beige;
+}
+
+/* Extra small devices (phones, less than 768px) */
+/* No media query since this is the default in Bootstrap */
+
+/* Small devices (tablets, 768px and up) */
+@media  (max-width: 767px) {
+  html{
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  html{
+    font-size: 16px;
+  }
+}
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width:992px) and (max-width: 1191px) { 
+  html{
+    font-size: 18px;
+  }
+}
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+  html{
+    font-size: 20px;
+  }
+ }
+ h4{
+   font-size: 1.5rem;
+ }
