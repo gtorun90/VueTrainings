@@ -1,37 +1,59 @@
-import Vue from 'vue'
-const httpUrl = 'https://kelime-oyunu-f312d.firebaseio.com';
-
+import * as service from '../../services/service' 
+const letterPoint = 100;
 const state = {
-    questions:[
-      {name:'Halk Dilinde Hala',answer:'BİBİ',letterCount:4,isAsked:false},
-      {name:'Garson kalfası',answer:'KOMİ',letterCount:4,isAsked:false}
-    ]
+    questions:[],
+    questionPoint : null
 }
 const getters = {
  getAllQuestions(state){
-    return state.questions.filter(q=>q.isAsked == false)
+    return state.questions.filter(q=>q.isAsked == false);
  },
  getCurrentQuestion(state){
-    return state.questions.filter(q=>q.isAsked == false).find(q=>q.isAsked == false)
+    let currentQuestion = state.questions.filter(q=>q.isAsked == false).find(q=>q);
+    return currentQuestion;
  },
- getCurrentAnswer(state){
-    return state.questions.filter(q=>q.isAsked == false).find(q=>q.isAsked == false).answer
+ getCurrentAnswerLetters(state){
+    let currentAnswer = state.questions.filter(q=>q.isAsked == false).find(q=>q.isAsked == false).answer;
+    let letters = [];
+    currentAnswer.split("").map(x => {
+        letters.push({
+          letter: x,
+          isOpened: false
+        });
+      });
+    return letters;
+ },
+ getQuestionPoint(state){
+     return state.questionPoint;
  }
 }
 const mutations = {
     updateQuestions(state,payload){
-        state.questions.push(payload)
+        state.questions.push(payload);
+    },
+    updateQuestionPoint(state,payload){
+        state.questionPoint = payload;
     }
 }
  
 const actions = {
     saveQuestionToDb({commit},payload){
-        console.log('Burada')
-     Vue.http.post(httpUrl+'/questions.json',payload)
+     return service.postData('/questions.json',payload)
      .then(response => {
-         console.log(response)
          commit('updateQuestions',payload)
-     })
+     }).catch(err => console.log(err))
+    },
+    getQuestions({commit}){
+        return service.getData('/questions.json').then(response => {
+            let data = response.body;
+            for(let key in data){
+              commit('updateQuestions',data[key]);
+            }
+            
+        }).catch(err => console.log(err))
+    },
+    changeQuestionPoint({commit},payload){
+        commit('updateQuestionPoint',payload);
     }
 }
 

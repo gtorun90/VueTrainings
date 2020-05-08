@@ -44,6 +44,10 @@ export default {
   methods: {
       saveQuestion(question){
         this.$store.dispatch("saveQuestionToDb", question);
+        this.clearFormData();
+      },
+      clearFormData(){
+        this.question = {name:"",answer:"",letterCount:null,isAsked:false};
       }
   },
 };

@@ -16,8 +16,6 @@ export default {
     appHeader:Header
   },
   created() {
-    // this.word = 'AHMET';
-    // this.letters = this.word.split("");
   },
 }
 </script>

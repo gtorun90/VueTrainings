@@ -1,61 +1,78 @@
 <template>
-  <div>
-    <div>
-      <p>{{getCurrentQuestion.name}}</p>
-    </div>
+  <section>
+    <app-animation v-if="isLoading"></app-animation>
+    <div class="container mt-5" v-else>
+      <div>
+        <h4>{{currentQuestion.name}}</h4>
+      </div>
       <app-letter
-        v-for="(value,index) in letters"
+        v-for="(obj,index) in currentAnswerLetters"
         :key="index"
-        :letter="value.letter"
-        :isOpened="value.isOpened"
-      >{{letter}}</app-letter>
-    <div class="card-footer">
-      <div class="input-group">
-        <input
-          class="form-control"
-          type="text"
-          placeholder="Cevapla"
-          @keypress.enter="enterIleCevapVer($event)"
-          @keyup="yarismaciCevap = yarismaciCevap.toLocaleUpperCase('tr')"
-        />
-        <div class="input-group-append">
-          <button :disabled="false" class="btn btn-danger" @click="giveLetter()">
-            <span>Harf Ver</span>
-          </button>
-          <button :disabled="false" @click="reply()" class="btn btn-success">
-            <span>Cevap Ver</span>
-          </button>
+        :letter="obj.letter"
+        :isOpened="obj.isOpened"
+      ></app-letter>
+      <div>
+        <div class="input-group">
+          <input
+            class="form-control"
+            type="text"
+            placeholder="Cevapla"
+            @keypress.enter="enterIleCevapVer()"
+            @keyup="yarismaciCevap = yarismaciCevap.toLocaleUpperCase('tr')"
+          />
+          <div class="input-group-append">
+            <button :disabled="false" class="btn btn-danger" @click="giveLetter()">
+              <span>Harf Ver</span>
+            </button>
+            <button :disabled="false" @click="reply()" class="btn btn-success">
+              <span>Cevap Ver</span>
+            </button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <script>
 import Letter from "./Letter";
 import { mapGetters } from "vuex";
+import Animation from "./Animation.vue";
 export default {
   data() {
     return {
-      letters: []
+      letters: [],
+      isLoading : true,
     };
   },
   components: {
-    appLetter: Letter
+    appLetter: Letter,
+    appAnimation: Animation
   },
   computed: {
-    ...mapGetters(["getCurrentAnswer", "getCurrentQuestion"])
+    ...mapGetters({
+      currentAnswerLetters : 'getCurrentAnswerLetters', 
+      currentQuestion :'getCurrentQuestion',
+      questionPoint : 'getQuestionPoint'
+
+    }),
   },
   created() {
-    let arrayLetter = this.$store.getters.getCurrentAnswer.split("").map(x => {
-      this.letters.push({
-        letter: x,
-        isOpened: false
+      this.$store.dispatch("getQuestions").then(response => {
+        this.letters = [...this.currentAnswerLetters] 
+        setTimeout(() => {
+          this.isLoading = false;
+        },3000)
+        
       });
-    });
   },
   methods: {
     giveLetter() {
+      let questionPoint = this.questionPoint ? this.questionPoint: this.letters.length*100;
+      if(questionPoint <=100){
+        alert('Harf Alma Hakkınız Tükendi');
+        return;
+      }
       let index = Math.floor(Math.random() * this.letters.length);
       let letter = this.letters[index];
       while (letter.isOpened) {
@@ -63,12 +80,15 @@ export default {
         letter = this.letters[index];
       }
       this.letters[index].isOpened = true;
+      questionPoint -= 100;
+      this.$store.dispatch('changeQuestionPoint',questionPoint)
     },
-    reply() {}
+    reply() {
+      this.$store.dispatch('changeQuestionPoint',null)
+    },
   }
 };
 </script>
 
 <style>
-
 </style>
