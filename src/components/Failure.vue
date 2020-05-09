@@ -1,40 +1,37 @@
 <template>
   <div class="container">
-    <h1>Maalesef Bilemediniz!</h1>
-    <button @click="newGame">Yeni Oyun</button>
+    <h1>Süre Doldu! Yarışmayı <strong>{{getPoints.totalPoint}}</strong>  puanla tamamladınız!</h1>
+    <button class="m-5" @click="newGame">Yeni Oyun</button>
   </div>
 </template>
 <script>
+import {mapGetters} from 'vuex';
 export default {
   methods: {
     newGame() {
-      this.$emit("activeComponentEvent", "app-game-cards");
+      
+        this.$router.push('/');
     }
-  }
+  },
+  computed:mapGetters(['getPoints']),
 };
 </script>
 <style scoped>
 .container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
+  margin-top:50px;
   align-items: center;
   justify-content: center;
-  background-color: darkred;
 }
 .container h1 {
-  font-size: 333%;
+  /* font-size: 333%; */
   color: white;
 }
 .container button {
   width: 200px;
   background-color: #fff;
-  color: darkred;
-  border: 1px solid brown;
+  color: #fa1570;
+  border: 1px solid #fa1570;
+  margin-left: 50px;
   height: 50px;
   font-size: 15px;
   border-radius: 5px;

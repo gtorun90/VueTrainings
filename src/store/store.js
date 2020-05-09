@@ -10,6 +10,7 @@ Vue.use(Vuex)
 export const store = new Vuex.Store({
     state:{
         totalPoint:0,
+        currentQuestionPoint : 0
 
     },
     modules:{

@@ -1,5 +1,6 @@
-export const getTotalPoint = (state) => {
+export const getPoints = (state) => {
     return {
-        totalPoint:state.totalPoint
+        totalPoint:state.totalPoint,
+        currentQuestionPoint:state.currentQuestionPoint
     }
 }

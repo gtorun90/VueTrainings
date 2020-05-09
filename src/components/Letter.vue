@@ -3,7 +3,7 @@
     <div class="elmas">
       <div class="hexagon harf">
         <transition name="rotate" appear>
-          <p v-if="isOpened">{{letter}}</p>
+          <p v-if="isOpened">{{letter | upper }}</p>
           <span v-else></span>
         </transition>
       </div>
@@ -38,7 +38,7 @@ export default {
 }
 .harf {
   font-weight: 700;
-  color: #cb484a;
+  color: #FA1570;
   justify-content: center;
   font-size: 20pt;
 }

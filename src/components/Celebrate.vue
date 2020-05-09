@@ -1,16 +1,20 @@
 <template>
   <div class="container">
-    <h1>Tebrikler Bildiniz!</h1>
+    <h1>Tebirkler!!!  Yarışmayı {{getPoints.totalPoint}}  puanla tamamladınız!</h1>
     <button @click="newGame">Yeni Oyun</button>
+      
+    <canvas id="canvas" key="canvas"></canvas> 
   </div>
 </template>
 <script>
+import {mapGetters} from 'vuex'
 export default {
 methods:{
     newGame(){
-        this.$emit("activeComponentEvent","app-game-cards")
+        this.$router.push('/');
     }
-}
+},
+computed: mapGetters(['getPoints']),
 
 };
 </script>

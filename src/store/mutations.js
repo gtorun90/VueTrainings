@@ -1,4 +1,8 @@
 export const updateTotalPoint = (state,payload) =>{
-    /*The total point which in state will be updated here*/
-    state.totalPoint += payload.totalPoint
+    /*Total points which in state will be updated here*/
+    state.totalPoint += payload;
+}
+export const updateCurrentQuestionPoint = (state,payload) =>{
+    /*current question points which in state will be updated here*/
+    state.currentQuestionPoint = payload;
 }
