@@ -1,8 +1,8 @@
 var path = require('path')
 var webpack = require('webpack')
-var pfill = require('babel-polyfill')
+// var pfill = require('babel-polyfill')
 
-
+//const VueLoaderPlugin = require('vue-loader/lib/plugin')
 module.exports = {
   entry: ['babel-polyfill','./src/main.js'],
   output: {

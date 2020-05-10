@@ -232,10 +232,7 @@ export default {
 .game-board {
   background-color: #221539;
   padding: 20px;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  margin-top: 150px;
 }
 .timer-section {
   padding: 20px;

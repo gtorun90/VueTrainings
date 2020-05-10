@@ -1,12 +1,5 @@
 <template>
   <div class="container">
-    <!-- <form class="mt-5" @submit.prevent> -->
-    <!-- <div *ngIf="mesajTur == 'success'" class="alert alert-success" role="alert">
-        Soru Veritabanına Eklendi!
-    </div>
-    <div *ngIf="mesajTur == 'error'" class="alert alert-danger" role="alert">
-        Kayıt Sırasında Bir Hata Oluştu!
-    </div>-->
     <div
     v-if="isSaved == 'success'"
       class="alert alert-success mt-5"
@@ -58,7 +51,7 @@ export default {
           this.isSaved = 'success';
           setTimeout(() => {
             this.isSaved = '';
-          })
+          },3000)
         })
         .catch(err => {
           this.isSaved = 'error';
