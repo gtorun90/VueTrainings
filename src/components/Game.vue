@@ -3,8 +3,8 @@
     <app-animation v-if="isLoading"></app-animation>
     <div class="game-board" v-else>
       <div class="d-flex justify-content-between">
-        <h4 class="mr-2">{{currentQuestion.name}}</h4>
-        <button @click="giveNextQuestion" class="btn btn-info" v-if="isAnswered">Sonraki</button>
+        <h4 class="mr-2">{{getCurrentData.currentQuestion.name}}</h4>
+        <!-- <button @click="giveNextQuestion" class="btn btn-info" v-if="isAnswered">Sonraki</button> -->
       </div>
 
       <div class="timer-section d-flex justify-content-between">
@@ -29,14 +29,14 @@
       </div>
       <div class="justify-content-center">
         <app-letter
-          v-for="(obj,index) in currentAnswerLetters"
+          v-for="(obj,index) in getCurrentData.letters"
           :key="index"
           :letter="obj.letter"
           :isOpened="obj.isOpened"
         ></app-letter>
       </div>
       <div class="input-group mt-5">
-        <button :disabled="false" class="btn btn-danger" @click="giveLetter()">
+        <button :disabled="canTakeLetter" class="btn btn-danger" @click="giveLetter()">
           <span>Harf Ver</span>
         </button>
         <input
@@ -53,7 +53,7 @@
         </button>
       </div>
     </div>
-    <app-info :messageType="messageType"></app-info>
+    <app-info :messageType="messageType" :message="message"></app-info>
   </section>
 </template>
 
@@ -70,12 +70,14 @@ export default {
       point: 0,
       answer: "",
       messageType: "",
+      message:'',
       maxLength: 0,
       isAnswered: false,
       answerTime: 30,
       gameTime: 300,
       answerInterval: "",
-      gameInterval: ""
+      gameInterval: "",
+      canTakeLetter:false
     };
   },
   components: {
@@ -85,24 +87,25 @@ export default {
   },
   computed: {
     ...mapGetters({
-      currentAnswerLetters: "getCurrentAnswerLetters",
-      currentAnswer: "getCurrentAnswer",
-      currentQuestion: "getCurrentQuestion",
+      // currentAnswerLetters: "getCurrentAnswerLetters",
+      // currentAnswer: "getCurrentAnswer",
+      getCurrentData: "getCurrentData",
       points: "getPoints"
     }),
-    makeItUpper() {
-      return this.currentAnswer.toLocaleUpperCase("tr-TR");
+    doUpper() {
+      return this.getCurrentData.currentAnswer.toLocaleUpperCase("tr-TR");
     }
   },
   created() {
     this.$store.dispatch("getQuestions").then(response => {
-      this.letters = [...this.currentAnswerLetters];
+      this.letters = [...this.getCurrentData.letters];
       let questionPoint = this.letters.length * 100;
       this.point = questionPoint;
       this.maxLength = this.letters.length;
       setTimeout(() => {
         this.$store.dispatch("setCurrentQuestionPoint", questionPoint);
         this.isLoading = false;
+        this.clearIntervals();
         this.showAnswerTime();
         this.showGameTime();
       }, 3000);
@@ -111,12 +114,11 @@ export default {
   methods: {
     giveLetter() {
       let questionPoint = this.points.currentQuestionPoint;
-      if (questionPoint <= 100) {
-        alert("Harf Alma Hakkınız Tükendi");
-        return;
-      }
       this.openLetter();
       questionPoint -= 100;
+      if (questionPoint <= 100) {
+        this.canTakeLetter = true;
+      }
       this.$store.dispatch("setCurrentQuestionPoint", questionPoint);
       this.point = questionPoint;
     },
@@ -136,10 +138,12 @@ export default {
           this.openLetter();
         });
     },
-    changeMessageType(messageType) {
+    changeMessageType(messageType,message) {
       this.messageType = messageType;
+      this.message = message;
       setTimeout(() => {
-        this.messageType = "";
+        this.messageType = '';
+        this.message = '';
       }, 3000);
     },
     reply() {
@@ -147,28 +151,27 @@ export default {
         return;
       }
       if (this.letters.length !== this.answer.length) {
-        this.changeMessageType("info");
+        this.changeMessageType("info",'Harf Sayıları Tutmuyor!');
         return;
       }
       this.isAnswered = true;
       clearInterval(this.answerInterval);
-      if (this.answer === this.makeItUpper) {
+      if (this.answer === this.doUpper) {
         this.$store.dispatch("setTotalPoint", this.point);
-        this.changeMessageType("success");
+        this.changeMessageType("success",'Tebrikler Doğru Bildiniz!');
       } else {
         this.$store.dispatch("setTotalPoint", 0);
-        this.changeMessageType("danger");
+        this.changeMessageType("danger",'Cevap Yanlış!');
       }
       this.openAllLetters();
-      if (!this.currentQuestion) {
-        setTimeout(() => {
-          finishGame("success");
-        }, 3000);
-      }
+      setTimeout(() =>{
+        this.giveNextQuestion();
+
+      },3000)
     },
     giveNextQuestion() {
-      this.$store.dispatch("setQuestionStatus", this.currentQuestion);
-      this.letters = [...this.currentAnswerLetters];
+      this.$store.dispatch("setQuestionStatus", this.getCurrentData.currentQuestion);
+      this.letters = [...this.getCurrentData.letters];
       let questionPoint = this.letters.length * 100;
       this.point = questionPoint;
       this.$store.dispatch("setCurrentQuestionPoint", questionPoint);
@@ -176,6 +179,13 @@ export default {
       this.isAnswered = false;
       this.showAnswerTime();
       this.maxLength = this.letters.length;
+      if(!this.getCurrentData.currentQuestion){
+        if(this.points.totalPoint === 0){
+          this.finishGame("fail");
+        }else{
+          this.finishGame("success");
+        }
+      }
     },
     showAnswerTime() {
       if (this.answerTime !== 30) {
@@ -202,6 +212,11 @@ export default {
       } else {
         this.$router.push("/failure");
       }
+      this.clearIntervals();
+    },
+    clearIntervals(){
+      clearInterval(this.answerInterval);
+      clearInterval(this.gameInterval);
     }
   }
 };

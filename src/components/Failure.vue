@@ -1,27 +1,24 @@
 <template>
   <div class="container">
-    <h1>Süre Doldu! Yarışmayı <strong>{{getPoints.totalPoint}}</strong>  puanla tamamladınız!</h1>
-    <button class="m-5" @click="newGame">Yeni Oyun</button>
+    <h1 class="h1-centered">
+       Süre Doldu! Yarışmayı
+      <strong>{{getPoints.totalPoint}}</strong> puanla tamamladınız!
+    </h1>
+    <button class="btn-centered" @click="newGame">Yeni Oyun</button>
   </div>
 </template>
 <script>
-import {mapGetters} from 'vuex';
+import { mapGetters } from "vuex";
 export default {
   methods: {
     newGame() {
-      
-        this.$router.push('/');
+      this.$router.push("/");
     }
   },
-  computed:mapGetters(['getPoints']),
+  computed: mapGetters(["getPoints"])
 };
 </script>
 <style scoped>
-.container {
-  margin-top:50px;
-  align-items: center;
-  justify-content: center;
-}
 .container h1 {
   /* font-size: 333%; */
   color: white;
@@ -31,7 +28,6 @@ export default {
   background-color: #fff;
   color: #fa1570;
   border: 1px solid #fa1570;
-  margin-left: 50px;
   height: 50px;
   font-size: 15px;
   border-radius: 5px;
@@ -42,5 +38,17 @@ export default {
   color: #fff;
   cursor: pointer;
   transition: all 0.5s;
+}
+.btn-centered {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.h1-centered {
+  position: fixed;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 </style>

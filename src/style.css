@@ -77,8 +77,16 @@ h4 {
 }
 
 .alert-success {
-  background-color: #81f79d;
-  border-color: #81f79d;
+  background-color: #56b76d;
+  border-color: #fff;
+}
+.alert-danger {
+  background-color: #e01e37;
+  border-color: #fff;
+}
+.alert-info{
+  background-color: #87ccf7;
+  border-color: #fff;
 }
 
 .btn-success {

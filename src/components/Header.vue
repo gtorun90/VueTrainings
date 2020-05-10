@@ -14,7 +14,7 @@
     </button>
     <div class="container collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav d-flex justify-content-between">
-        <router-link to="/" tag="li" class="navbar-brand" active-class="active">
+        <router-link to="/" exact tag="li" class="navbar-brand" active-class="active">
           <a class="nav-link"><strong>Oyun Sayfası</strong></a>
         </router-link>
       </ul>

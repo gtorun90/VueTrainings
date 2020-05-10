@@ -56,6 +56,9 @@ export default {
       saveQuestion(question){
         this.$store.dispatch("saveQuestionToDb", question).then(response => {
           this.isSaved = 'success';
+          setTimeout(() => {
+            this.isSaved = '';
+          })
         })
         .catch(err => {
           this.isSaved = 'error';
