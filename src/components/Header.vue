@@ -15,14 +15,17 @@
     <div class="container collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav d-flex justify-content-between">
         <router-link to="/" exact tag="li" class="navbar-brand" active-class="active">
-          <a class="nav-link"><strong>Oyun Sayfası</strong></a>
+          <a class="nav-link"><strong>Oyun</strong></a>
         </router-link>
-      </ul>
-      <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
         <router-link to="/new-question" tag="li" class="navbar-brand" active-class="active">
           <a class="nav-link"><strong>Soru Ekle</strong></a>
         </router-link>
       </ul>
+      <!-- <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
+        <router-link to="/new-question" tag="li" class="navbar-brand" active-class="active">
+          <a class="nav-link"><strong>Soru Ekle</strong></a>
+        </router-link>
+      </ul> -->
     </div>
   </nav>
 </template>
