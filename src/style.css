@@ -8,6 +8,8 @@ html, body {
 body {
   background-color: #FA1570;
   color: #FA1570;
+  overflow-x: hidden;
+  overflow-y: hidden;
 }
 
 /* Extra small devices (phones, less than 768px) */

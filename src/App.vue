@@ -4,7 +4,7 @@
     <transition name="fade" mode="out-in">
       <router-view></router-view>
     </transition>
-    <canvas v-show="false" id="canvas" key="canvas"></canvas>
+    <canvas v-show="showCanvas" id="canvas" key="canvas"></canvas>
     <app-footer></app-footer>
   </div>
 </template>
@@ -15,6 +15,7 @@ import Footer from "./components/Footer";
 export default {
   data() {
     return {
+      showCanvas: false
     };
   },
   components: {
@@ -23,15 +24,24 @@ export default {
   },
   computed: {
     // showCanvas() {
-    //   if (this.$router.currentRoute.name === "celebrate") {
-    //     return true;
-    //   }else{
-    //     return false;
-    //   }
+    //    if (this.$router.currentRoute.name === "celebrate") {
+    //      return true;
+    //    }else{
+    //      return false;
+    //    }
     // }
   },
-  created() {
-  }
+  watch: {
+    $route(to, from) {
+      if (this.$router.currentRoute.name === "celebrate") {
+        return this.showCanvas = true;
+      }else{
+        return this.showCanvas = false;
+      }
+      this.$forceUpdate()
+    }
+  },
+  created() {}
 };
 </script>
 

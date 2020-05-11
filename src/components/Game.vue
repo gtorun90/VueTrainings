@@ -164,6 +164,7 @@ export default {
         this.changeMessageType("danger",'Cevap Yanlış!');
       }
       this.openAllLetters();
+      this.clearIntervals();
       setTimeout(() =>{
         this.giveNextQuestion();
 
@@ -178,6 +179,7 @@ export default {
       this.answer = "";
       this.isAnswered = false;
       this.showAnswerTime();
+      this.showGameTime();
       this.maxLength = this.letters.length;
       if(!this.getCurrentData.currentQuestion){
         if(this.points.totalPoint === 0){
@@ -210,8 +212,9 @@ export default {
       if (finishingType == "success") {
         this.$router.push("/celebrate");
       } else {
-        this.$router.push("/failure");
+        this.$router.push("/celebrate");
       }
+      this.$store.dispatch("setCurrentQuestionPoint", 0);
       this.clearIntervals();
     },
     clearIntervals(){

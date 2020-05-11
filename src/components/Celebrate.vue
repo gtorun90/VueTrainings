@@ -1,8 +1,11 @@
 <template>
   <div class="container">
-      <h1  class="h1-centered">Tebrikler!!! Yarışmayı {{getPoints.totalPoint}} puanla tamamladınız!</h1>
-      <button class="btn-centered" @click="newGame">Yeni Oyun</button>
-      <canvas id="canvas" key="canvas"></canvas>
+    <h1 class="h1-centered">
+       Tebrikler! Yarışmayı
+      <strong>{{getPoints.totalPoint}}</strong> puanla tamamladınız!
+    </h1>
+    <button class="btn-centered" @click="newGame">Yeni Oyun</button>
+    <!-- <canvas id="canvas" key="canvas"></canvas> -->
   </div>
 </template>
 <script>
@@ -12,6 +15,9 @@ export default {
     newGame() {
       this.$router.push("/");
     }
+  },
+  created() {
+   //confetti.confettiParticle();
   },
   computed: mapGetters(["getPoints"])
 };
