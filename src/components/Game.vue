@@ -237,7 +237,7 @@ export default {
 .game-board {
   background-color: #221539;
   padding: 20px;
-  margin-top: 150px;
+  margin-top: 100px;
 }
 .timer-section {
   padding: 20px;
