@@ -37,7 +37,7 @@ export default {
         return this.showCanvas = true;
       }else{
         return this.showCanvas = false;
-      }
+      }     
       this.$forceUpdate()
     }
   },

@@ -98,6 +98,8 @@ export default {
   },
   created() {
     this.$store.dispatch("getQuestions").then(response => {
+      let totalPoint = this.points.totalPoint;
+      this.$store.dispatch("setTotalPoint", -totalPoint);
       this.letters = [...this.getCurrentData.letters];
       let questionPoint = this.letters.length * 100;
       this.point = questionPoint;
@@ -160,7 +162,7 @@ export default {
         this.$store.dispatch("setTotalPoint", this.point);
         this.changeMessageType("success",'Tebrikler Doğru Bildiniz!');
       } else {
-        this.$store.dispatch("setTotalPoint", 0);
+        this.$store.dispatch("setTotalPoint", -this.point);
         this.changeMessageType("danger",'Cevap Yanlış!');
       }
       this.openAllLetters();
@@ -212,7 +214,7 @@ export default {
       if (finishingType == "success") {
         this.$router.push("/celebrate");
       } else {
-        this.$router.push("/celebrate");
+        this.$router.push("/failure");
       }
       this.$store.dispatch("setCurrentQuestionPoint", 0);
       this.clearIntervals();
