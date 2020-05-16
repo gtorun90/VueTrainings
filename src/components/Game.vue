@@ -87,8 +87,6 @@ export default {
   },
   computed: {
     ...mapGetters({
-      // currentAnswerLetters: "getCurrentAnswerLetters",
-      // currentAnswer: "getCurrentAnswer",
       getCurrentData: "getCurrentData",
       points: "getPoints"
     }),

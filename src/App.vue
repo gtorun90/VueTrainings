@@ -22,26 +22,16 @@ export default {
     appHeader: Header,
     appFooter: Footer
   },
-  computed: {
-    // showCanvas() {
-    //    if (this.$router.currentRoute.name === "celebrate") {
-    //      return true;
-    //    }else{
-    //      return false;
-    //    }
-    // }
-  },
   watch: {
     $route(to, from) {
       if (this.$router.currentRoute.name === "celebrate") {
-        return this.showCanvas = true;
-      }else{
-        return this.showCanvas = false;
-      }     
-      this.$forceUpdate()
+        return (this.showCanvas = true);
+      } else {
+        return (this.showCanvas = false);
+      }
+      this.$forceUpdate();
     }
-  },
-  created() {}
+  }
 };
 </script>
 
