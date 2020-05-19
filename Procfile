@@ -1,1 +1,1 @@
-web: ./node_modules/http-server/bin/http-server ./ -p $PORT
+web: http-server ./ -p $PORT
