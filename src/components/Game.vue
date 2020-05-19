@@ -178,6 +178,7 @@ export default {
       this.$store.dispatch("setCurrentQuestionPoint", questionPoint);
       this.answer = "";
       this.isAnswered = false;
+      this.canTakeLetter = false;
       this.showAnswerTime();
       this.showGameTime();
       this.maxLength = this.letters.length;

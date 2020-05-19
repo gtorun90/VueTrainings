@@ -1,11 +1,11 @@
 <template>
   <div id="app">
-    <app-header></app-header>
+    <app-header/>
     <transition name="fade" mode="out-in">
       <router-view></router-view>
     </transition>
     <canvas v-show="showCanvas" id="canvas" key="canvas"></canvas>
-    <app-footer></app-footer>
+    <app-footer/>
   </div>
 </template>
 
