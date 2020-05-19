@@ -3,7 +3,7 @@
     <div class="elmas">
       <div class="hexagon harf">
         <transition name="rotate" appear>
-          <p v-if="isOpened">{{letter | upper }}</p>
+          <p class="d-inline-block" v-if="isOpened">{{letter | upper }}</p>
           <span v-else></span>
         </transition>
       </div>
@@ -55,7 +55,7 @@ export default {
 .hexagon:before {
   content: "";
   position: absolute;
-  display: block;
+  display: inline-block;
   background: transparent url("../assets/img/hexa.png") no-repeat;
   z-index: 1;
   width: 100%;
@@ -63,20 +63,9 @@ export default {
   left: 0;
   top: 0;
 }
-/* .fade-enter-active, .fade-leave-active {
-  transition: opacity .5s;
-}
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8  {
-  opacity: 0;
-} */
-.rotate-enter {
-}
+
 .rotate-enter-active {
   animation: rotate ease-out .2s;
-}
-.rotate-leave {
-}
-.rotate-leave-active {
 }
 
 @keyframes rotate {
