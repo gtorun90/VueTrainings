@@ -3,7 +3,7 @@
     <div class="elmas">
       <div class="hexagon harf">
         <transition name="rotate" appear>
-          <p v-if="isOpened">{{letter | upper }}</p>
+          <p class="d-inline-block" v-if="isOpened">{{letter | upper }}</p>
           <span v-else></span>
         </transition>
       </div>
@@ -48,14 +48,14 @@ export default {
   height: 60px;
   line-height: 50px;
   text-align: center;
-  /* display: inline-block; */
+  display: inline-block;
   padding: 5px 0;
   margin-right: 5px;
 }
 .hexagon:before {
   content: "";
   position: absolute;
-  display: d-flex;
+  display: inline-block;
   background: transparent url("../assets/img/hexa.png") no-repeat;
   z-index: 1;
   width: 100%;
