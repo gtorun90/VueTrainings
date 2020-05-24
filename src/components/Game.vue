@@ -237,6 +237,7 @@ export default {
   background-color: #221539;
   padding: 20px;
   margin-top: 100px;
+  height: 400px;
 }
 .timer-section {
   padding: 20px;

@@ -1,10 +1,12 @@
 <template>
   <div class="kelime">
+    <div class="elmas">
       <div class="hexagon harf">
         <transition name="rotate" appear>
           <p v-if="isOpened">{{letter | upper }}</p>
           <span v-else></span>
         </transition>
+      </div>
     </div>
   </div>
 </template>
@@ -27,17 +29,13 @@ export default {
   margin: 0 auto;
   text-align: center;
   display: inline-block;
+}
+.elmas {
   overflow: hidden;
   padding: 0 4px;
   width: 60px;
   height: 60px;
 }
-/* .elmas {
-  overflow: hidden;
-  padding: 0 4px;
-  width: 60px;
-  height: 60px;
-} */
 .harf {
   font-weight: 700;
   color: #FA1570;
@@ -50,14 +48,14 @@ export default {
   height: 60px;
   line-height: 50px;
   text-align: center;
-  display: flex;
+  /* display: inline-block; */
   padding: 5px 0;
   margin-right: 5px;
 }
 .hexagon:before {
   content: "";
   position: absolute;
-  display: inline-block;
+  display: d-flex;
   background: transparent url("../assets/img/hexa.png") no-repeat;
   z-index: 1;
   width: 100%;
