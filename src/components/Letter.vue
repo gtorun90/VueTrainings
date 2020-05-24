@@ -1,12 +1,10 @@
 <template>
   <div class="kelime">
-    <div class="elmas">
       <div class="hexagon harf">
         <transition name="rotate" appear>
-          <p class="d-inline-block" v-if="isOpened">{{letter | upper }}</p>
+          <p v-if="isOpened">{{letter | upper }}</p>
           <span v-else></span>
         </transition>
-      </div>
     </div>
   </div>
 </template>
@@ -29,13 +27,17 @@ export default {
   margin: 0 auto;
   text-align: center;
   display: inline-block;
-}
-.elmas {
   overflow: hidden;
   padding: 0 4px;
   width: 60px;
   height: 60px;
 }
+/* .elmas {
+  overflow: hidden;
+  padding: 0 4px;
+  width: 60px;
+  height: 60px;
+} */
 .harf {
   font-weight: 700;
   color: #FA1570;
@@ -48,7 +50,7 @@ export default {
   height: 60px;
   line-height: 50px;
   text-align: center;
-  display: inline-block;
+  display: flex;
   padding: 5px 0;
   margin-right: 5px;
 }
