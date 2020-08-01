@@ -1,7 +1,7 @@
 <template>
-  <div class="kelime">
-    <div class="elmas">
-      <div class="hexagon harf">
+  <div class="word">
+    <div class="diamond">
+      <div class="hexagon letter">
         <transition name="rotate" appear>
           <p class="d-inline-block" v-if="isOpened">{{letter | upper }}</p>
           <span v-else></span>
@@ -20,25 +20,25 @@ export default {
       //isOpened: false
     };
   },
-  props: ["letter", "isOpened"]
+  props: ["letter", "isOpened"],
 };
 </script>
 
 <style scoped>
-.kelime {
+.word {
   margin: 0 auto;
   text-align: center;
   display: inline-block;
 }
-.elmas {
+.diamond {
   overflow: hidden;
   padding: 0 4px;
   width: 60px;
   height: 60px;
 }
-.harf {
+.letter {
   font-weight: 700;
-  color: #FA1570;
+  color: #fa1570;
   justify-content: center;
   font-size: 20pt;
 }
@@ -65,7 +65,7 @@ export default {
 }
 
 .rotate-enter-active {
-  animation: rotate ease-out .2s;
+  animation: rotate ease-out 0.2s;
 }
 
 @keyframes rotate {

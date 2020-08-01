@@ -2,11 +2,10 @@
   <section class="container mt-5">
     <app-animation v-if="isLoading"></app-animation>
     <div class="game-board" v-else>
-      <div class="d-flex justify-content-between">
+      <div>
         <h4 class="mr-2">{{getCurrentData.currentQuestion.name}}</h4>
         <!-- <button @click="giveNextQuestion" class="btn btn-info" v-if="isAnswered">Sonraki</button> -->
       </div>
-
       <div class="timer-section d-flex justify-content-between">
         <div class="totalSecond">
           <span>Toplam Süre</span>
@@ -227,7 +226,6 @@ export default {
 </script>
 
 <style scoped>
-
 .form-control {
   border: 1px solid #fa1570;
   color: #fa1570;
@@ -237,11 +235,11 @@ export default {
   background-color: #221539;
   padding: 20px;
   margin-top: 100px;
-  height: 400px;
 }
 .timer-section {
   padding: 20px;
 }
+
 #countdown {
   position: relative;
   height: 40px;
