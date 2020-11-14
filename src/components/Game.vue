@@ -1,7 +1,10 @@
 <template>
   <section class="container mt-5">
     <app-animation v-if="isLoading"></app-animation>
-    <div class="game-board" v-else>
+    <div
+      class="game-board"
+      v-else
+    >
       <div>
         <h4 class="mr-2">{{getCurrentData.currentQuestion.name}}</h4>
         <!-- <button @click="giveNextQuestion" class="btn btn-info" v-if="isAnswered">Sonraki</button> -->
@@ -9,21 +12,20 @@
       <div class="timer-section d-flex justify-content-between">
         <div class="totalSecond">
           <span>Toplam Süre</span>
-          <div id="countdown">
-            <div id="countdown-number" class="float-right">{{gameTime}}</div>
-            <svg>
-              <circle id="total" r="18" cx="20" cy="20" />
-            </svg>
-          </div>
+          <app-timer
+            :timeType="timeType.game"
+            :time="gameTime"
+          ></app-timer>
         </div>
-        <div class="mr-4" v-if="!isAnswered">
+        <div
+          class="mr-4"
+          v-if="!isAnswered"
+        >
           <span>Cevap Süresi</span>
-          <div id="countdown">
-            <div id="countdown-number" class="float-right">{{answerTime}}</div>
-            <svg>
-              <circle id="single" r="18" cx="20" cy="20" />
-            </svg>
-          </div>
+          <app-timer
+            :timeType="timeType.answer"
+            :time="answerTime"
+          ></app-timer>
         </div>
       </div>
       <div class="justify-content-center">
@@ -35,7 +37,11 @@
         ></app-letter>
       </div>
       <div class="input-group mt-5">
-        <button :disabled="canTakeLetter" class="btn btn-danger" @click="giveLetter()">
+        <button
+          :disabled="canTakeLetter"
+          class="btn btn-danger"
+          @click="giveLetter()"
+        >
           <span>Harf Ver</span>
         </button>
         <input
@@ -47,12 +53,19 @@
           @input="answer = $event.target.value.toLocaleUpperCase('tr-TR')"
           @keypress.enter="reply()"
         />
-        <button :disabled="answer.length == 0" @click="reply()" class="btn btn-success">
+        <button
+          :disabled="answer.length == 0"
+          @click="reply()"
+          class="btn btn-success"
+        >
           <span>Cevap Ver</span>
         </button>
       </div>
     </div>
-    <app-info :messageType="messageType" :message="message"></app-info>
+    <app-info
+      :messageType="messageType"
+      :message="message"
+    ></app-info>
   </section>
 </template>
 
@@ -60,6 +73,7 @@
 import Letter from "./Letter";
 import Info from "./Info";
 import Animation from "./Animation.vue";
+import Timer from "./Timer.vue";
 import { mapGetters } from "vuex";
 export default {
   data() {
@@ -69,32 +83,37 @@ export default {
       point: 0,
       answer: "",
       messageType: "",
-      message:'',
+      message: "",
       maxLength: 0,
       isAnswered: false,
-      answerTime: 30,
-      gameTime: 300,
       answerInterval: "",
       gameInterval: "",
-      canTakeLetter:false
+      canTakeLetter: false,
+      gameTime: 300,
+      answerTime: 30,
+      timeType: {
+        game: 1,
+        answer: 2,
+      },
     };
   },
   components: {
     appLetter: Letter,
     appAnimation: Animation,
-    appInfo: Info
+    appInfo: Info,
+    appTimer: Timer,
   },
   computed: {
     ...mapGetters({
       getCurrentData: "getCurrentData",
-      points: "getPoints"
+      points: "getPoints",
     }),
     doUpper() {
       return this.getCurrentData.currentAnswer.toLocaleUpperCase("tr-TR");
-    }
+    },
   },
   created() {
-    this.$store.dispatch("getQuestions").then(response => {
+    this.$store.dispatch("getQuestions").then((response) => {
       let totalPoint = this.points.totalPoint;
       this.$store.dispatch("setTotalPoint", -totalPoint);
       this.letters = [...this.getCurrentData.letters];
@@ -132,17 +151,17 @@ export default {
     },
     openAllLetters() {
       this.letters
-        .filter(x => x.isOpened == false)
-        .forEach(x => {
+        .filter((x) => x.isOpened == false)
+        .forEach((x) => {
           this.openLetter();
         });
     },
-    changeMessageType(messageType,message) {
+    changeMessageType(messageType, message) {
       this.messageType = messageType;
       this.message = message;
       setTimeout(() => {
-        this.messageType = '';
-        this.message = '';
+        this.messageType = "";
+        this.message = "";
       }, 3000);
     },
     reply() {
@@ -150,27 +169,29 @@ export default {
         return;
       }
       if (this.letters.length !== this.answer.length) {
-        this.changeMessageType("info",'Harf Sayıları Tutmuyor!');
+        this.changeMessageType("info", "Harf Sayıları Tutmuyor!");
         return;
       }
       this.isAnswered = true;
       clearInterval(this.answerInterval);
       if (this.answer === this.doUpper) {
         this.$store.dispatch("setTotalPoint", this.point);
-        this.changeMessageType("success",'Tebrikler Doğru Bildiniz!');
+        this.changeMessageType("success", "Tebrikler Doğru Bildiniz!");
       } else {
         this.$store.dispatch("setTotalPoint", -this.point);
-        this.changeMessageType("danger",'Cevap Yanlış!');
+        this.changeMessageType("danger", "Cevap Yanlış!");
       }
       this.openAllLetters();
       this.clearIntervals();
-      setTimeout(() =>{
+      setTimeout(() => {
         this.giveNextQuestion();
-
-      },3000)
+      }, 3000);
     },
     giveNextQuestion() {
-      this.$store.dispatch("setQuestionStatus", this.getCurrentData.currentQuestion);
+      this.$store.dispatch(
+        "setQuestionStatus",
+        this.getCurrentData.currentQuestion
+      );
       this.letters = [...this.getCurrentData.letters];
       let questionPoint = this.letters.length * 100;
       this.point = questionPoint;
@@ -181,10 +202,10 @@ export default {
       this.showAnswerTime();
       this.showGameTime();
       this.maxLength = this.letters.length;
-      if(!this.getCurrentData.currentQuestion){
-        if(this.points.totalPoint === 0){
+      if (!this.getCurrentData.currentQuestion) {
+        if (this.points.totalPoint === 0) {
           this.finishGame("fail");
-        }else{
+        } else {
           this.finishGame("success");
         }
       }
@@ -217,11 +238,11 @@ export default {
       this.$store.dispatch("setCurrentQuestionPoint", 0);
       this.clearIntervals();
     },
-    clearIntervals(){
+    clearIntervals() {
       clearInterval(this.answerInterval);
       clearInterval(this.gameInterval);
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -239,49 +260,7 @@ export default {
 .timer-section {
   padding: 20px;
 }
-
-#countdown {
-  position: relative;
-  height: 40px;
-  width: 40px;
-  text-align: center;
-}
-
-#countdown-number {
-  color: white;
-  display: inline-block;
-  line-height: 40px;
-}
-
-svg {
-  position: absolute;
-  width: 40px;
-  height: 40px;
-  transform: rotateY(-180deg) rotateZ(-90deg);
-}
-
-svg circle {
-  stroke-dasharray: 113px;
-  stroke-dashoffset: 0px;
-  stroke-linecap: round;
-  stroke-width: 2px;
-  stroke: #fa1570;
-  fill: none;
-  animation: countdown 30s linear infinite forwards;
-}
-
-#total {
-  animation: countdown 300s linear infinite forwards !important;
-}
 .totalSecond {
   margin-right: 8rem !important;
-}
-@keyframes countdown {
-  from {
-    stroke-dashoffset: 0px;
-  }
-  to {
-    stroke-dashoffset: 113px;
-  }
 }
 </style>
